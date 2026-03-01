@@ -4,6 +4,7 @@ from shapely.geometry import LineString, Point, box
 import branca.colormap as cm
 import geopandas as gpd
 from ortools.constraint_solver import routing_enums_pb2, pywrapcp
+import math
 
 
 class visualizer:
@@ -71,185 +72,17 @@ class visualizer:
         self.map.add_child(colorScale)
 
     def addStrategicPeaks(self):
-    
+        """
+        Marks population peaks with red fire icons.
+        """
         islands_gdf, peaks_gdf, quiet_gdf = self.loader.getStrategicIslands(threshold=500, min_cells=5)
 
         for _, peak in peaks_gdf.iterrows():
-            # A. Plot the Spike (The "Hot" spot)
-            print(peak)
+            # Plot the Spike (The "Hot" spot)
             folium.Marker(
                 location=[peak.geometry.y, peak.geometry.x],
                 popup=f"Spike: {int(peak['pop'])}",
                 icon=folium.Icon(color='red', icon='fire', prefix='fa')
-            ).add_to(self.map)
-
-            # B. Find and Plot top 3 Ranked Quiet Spots
-            quiet_options = self.loader.findClosestQuietSpots(peak.geometry, quiet_threshold=500)
-
-            for rank, spot in enumerate(quiet_options):
-                # Rank 0 (Best) is dark blue, others are lighter
-                color = "#0000FF" if rank == 0 else "#6699FF"
-                
-                folium.CircleMarker(
-                    location=[spot['geometry'].y, spot['geometry'].x],
-                    radius=6 - (rank * 1.5), # Smaller radius for lower ranks
-                    color=color,
-                    fill=True,
-                    fill_opacity=0.8 - (rank * 0.2),
-                    popup=f"Rank {rank+1} Quiet Spot\nPop: {int(spot['pop'])}"
-                ).add_to(self.map)
-            
-
-    def addTspRouteToMap(self, peaks_gdf):
-        # 1. Solve the TSP (returns list of indices)
-        route_indices = self._get_tsp_route(peaks_gdf)
-        
-        # 2. Convert indices to (lat, lon) coordinates
-        # IMPORTANT: Folium expects [lat, lon], while GeoPandas might be [lon, lat]
-        route_coords = []
-        for idx in route_indices:
-            geom = peaks_gdf.iloc[idx].geometry
-            route_coords.append([geom.y, geom.x])
-
-        # 3. Draw the Path
-        folium.PolyLine(
-            locations=route_coords,
-            color="#E91E63", # A vibrant pink/red for the path
-            weight=4,
-            opacity=0.7,
-            tooltip="Optimized TSP Route",
-            dash_array='10, 10' # Optional: dashed line look
-        ).add_to(self.map)
-        
-        # 4. Add Directional Markers (Optional)
-        for i, idx in enumerate(route_indices[:-1]):
-            geom = peaks_gdf.iloc[idx].geometry
-            folium.CircleMarker(
-                location=[geom.y, geom.x],
-                radius=3,
-                color='white',
-                fill=True,
-                popup=f"Stop {i+1}"
-            ).add_to(self.map)
-
-    def _get_tsp_route(self, gdf):
-        num_locs = len(gdf)
-        if num_locs < 2: return []
-        
-        # Generate Distance Matrix (Euclidean for simplicity)
-        dist_matrix = []
-        for i in range(num_locs):
-            row = [int(gdf.iloc[i].geometry.distance(gdf.iloc[j].geometry) * 1000) 
-                for j in range(num_locs)]
-            dist_matrix.append(row)
-
-        manager = pywrapcp.RoutingIndexManager(num_locs, 1, 0)
-        routing = pywrapcp.RoutingModel(manager)
-
-        def dist_callback(from_idx, to_idx):
-            return dist_matrix[manager.IndexToNode(from_idx)][manager.IndexToNode(to_idx)]
-
-        callback_index = routing.RegisterTransitCallback(dist_callback)
-        routing.SetArcCostEvaluatorOfAllVehicles(callback_index)
-
-        search_params = pywrapcp.DefaultRoutingSearchParameters()
-        search_params.first_solution_strategy = routing_enums_pb2.FirstSolutionStrategy.PATH_CHEAPEST_ARC
-        
-        solution = routing.SolveWithParameters(search_params)
-        
-        # Extract order
-        route = []
-        index = routing.Start(0)
-        while not routing.IsEnd(index):
-            route.append(manager.IndexToNode(index))
-            index = solution.Value(routing.NextVar(index))
-        route.append(manager.IndexToNode(index)) # Loop back to start
-        return route
-
-
-    def addInterIslandCorridors(self):
-        from kimDroneGoon.routing_logic import StealthRouter
-        router = StealthRouter(self.loader.popRaster)
-        islands_gdf, peaks_gdf, quiet_gdf = self.loader.getStrategicIslands(threshold=500, min_cells=5)
-        # Example: Link every peak to the quietest spot on the NEAREST other island
-        for idx, peak in peaks_gdf.iterrows():
-            # 1. Find potential target (e.g., a quiet spot on a different island)
-            # For now, let's assume you have a list of 'quiet_spots'
-            quiet_spots = self.loader.findClosestQuietSpots(peak.geometry, quiet_threshold=500, top_n=1)
-            for target in quiet_spots:
-    # Now 'target' is a dictionary, so use target['geometry'] 
-    # instead of target.geometry
-                path_geom, cost = router.find_stealth_snake(peak.geometry, target['geometry'])
-
-                
-                if path_geom:
-                    # 2. Plot the 'Snake' on the map
-                    # The line will naturally bend around high-density pixels
-                    folium.GeoJson(
-                        path_geom.__geo_interface__,
-                        style_function=lambda x: {'color': 'green', 'weight': 2, 'opacity': 0.7},
-                        tooltip=f"Stealth Path Cost: {int(cost)} pop-units"
-                    ).add_to(self.map)
-
-
-    
-
-    def addHeatmapPeaks(self, threshold=500):
-        islands, peaks = self.loader.getIslandPeaks(threshold=threshold)
-
-        # Mark the 'capital' of every island
-        for _, peak in peaks.iterrows():
-            folium.Marker(
-                location=[peak.geometry.y, peak.geometry.x],
-                popup=f"Island #{peak['island_id']} Peak: {int(peak['pop'])}",
-                icon=folium.Icon(color='orange', icon='info-sign')
-            ).add_to(self.map)
-
-
-    
-
-    def addLandUseLayer(self):
-        # Using a neon-blue for high contrast against the red pop and dark map
-        data = self.loader.landUseRaster.read(1)
-        # Bounds logic from previous step
-        # ... (Refer to previous ImageOverlay code for bounds) ...
-        folium.raster_layers.ImageOverlay(
-            image=data,
-            bounds=self._get_raster_bounds(self.loader.landUseRaster),
-            colormap=lambda x: (0, 0.8, 1, 0.3) if x > 0 else (0,0,0,0),
-            name="Land Use Context"
-        ).add_to(self.map)
-
-    def addSandboxZones(self):
-        # Bright yellow/green for allowed zones
-        folium.GeoJson(
-            self.loader.sandboxZones,
-            name="Allowed Sandbox Zones",
-            style_function=lambda x: {
-                'fillColor': '#00FF00',
-                'color': '#FFFFFF',
-                'weight': 3,
-                'fillOpacity': 0.2,
-            },
-            tooltip=folium.GeoJsonTooltip(fields=['name'])
-        ).add_to(self.map)
-
-    def addStrategicHotspots(self, neighborhood=1000): # ~700m search radius
-        # Get the dispersed hotspots
-        gdf = self.loader.findLocalHotspots(neighborhood_size=neighborhood)
-        
-        for _, row in gdf.iterrows():
-            coords = [row.geometry.y, row.geometry.x]
-            
-            # Use a distinctive 'Pulse' or different icon for these strategic peaks
-            folium.Circle(
-                location=coords,
-                radius=150, # Show the 'influence' area
-                color='#00FFFF', # Cyan for 'Strategic Peak'
-                weight=2,
-                fill=True,
-                fill_opacity=0.4,
-                tooltip=f"Local Peak: {int(row['pop'])} people"
             ).add_to(self.map)
 
     def _get_raster_bounds(self, src):
@@ -258,29 +91,10 @@ class visualizer:
         left, bottom, right, top = transform_bounds(src.crs, 'EPSG:4326', *bounds)
         return [[bottom, left], [top, right]]
 
-
     def render(self, fileName="hk_lae_model.html"):
         folium.LayerControl().add_to(self.map)
         self.map.save(fileName)
         return self.map
-
-
-    def peaksRecipe(self):
-        from kimDroneGoon.filter import PopulationFilters as PF
-
-        # 1. Load the data
-        raw_grid = self.loader.get_raw_grid_gdf()
-
-        # 2. Apply the "Island" Filter (Keep only dense areas)
-        islands = PF.threshold_filter(raw_grid, min_pop=500)
-        islands = PF.size_filter(islands, min_cells=100)
-
-        # 3. Create the "Strategic Markers" (Distance Filter)
-        # We apply this to the islands we already found
-        markers = PF.distance_suppression(islands, min_dist_meters=1000)
-
-        for _, m in markers.iterrows():
-            folium.Marker([m.geometry.y, m.geometry.x], icon=folium.Icon(color='red')).add_to(self.map)
 
     def calculate_route_distance(self, route_points_gdf):
         """
@@ -312,14 +126,57 @@ class visualizer:
 
         return total_meters
 
+    def getRandomPlaceOnDronePathPopNotZero(self, route_points_gdf):
+        """
+        Selects a random point along the drone path where population is not zero.
+        """
+        if route_points_gdf is None or len(route_points_gdf) == 0:
+            return None
 
-    def addOptimizedDronePath(self):
+        # Sample population values from raster at each point location
+        popData = self.loader.popRaster.read(1)
+        transform = self.loader.popRaster.transform
+        
+        pop_values = []
+        for _, row in route_points_gdf.iterrows():
+            x, y = row.geometry.x, row.geometry.y
+            col, row_idx = ~transform * (x, y)
+            col, row_idx = int(col), int(row_idx)
+            if 0 <= row_idx < popData.shape[0] and 0 <= col < popData.shape[1]:
+                pop_values.append(float(popData[row_idx, col]))
+            else:
+                pop_values.append(0.0)
+        
+        route_points_gdf = route_points_gdf.copy()
+        route_points_gdf['pop'] = pop_values
+        
+        # Filter to points with population > 0
+        valid_points = route_points_gdf[route_points_gdf['pop'] > 0]
+
+        if valid_points.empty:
+            print("No valid points with population > 0 found on the route.")
+            return None
+
+        # Randomly select one of the valid points
+        random_point = valid_points.sample(n=1).iloc[0]
+        return random_point.geometry.y, random_point.geometry.x
+
+    
+
+    def getOptimizedDronePath(self):
+        """
+        Computes the optimized TSP route and returns the ordered GeoDataFrame.
+        Used by addOptimizedDronePath() for visualization and other functions.
+        
+        Returns:
+            GeoDataFrame with points ordered along the TSP route, or None if not enough points
+        """
         # 1. Fetch and Clean Data
         _, _, quiet_gdf = self.loader.getStrategicIslands(threshold=500, min_cells=5)
 
         if quiet_gdf is None or len(quiet_gdf) < 3:
             print("Not enough points for a TSP route.")
-            return
+            return None
 
         # Force a clean integer index (0, 1, 2...)
         df = quiet_gdf.reset_index(drop=True)
@@ -365,41 +222,167 @@ class visualizer:
         
         solution = routing.SolveWithParameters(search_params)
 
-        # 5. Build PolyLine Coordinates
+        # 5. Extract ordered route and return as GeoDataFrame
         if solution:
-            route_coords = []
-            index = routing.Start(0)
-            while not routing.IsEnd(index):
-                node = manager.IndexToNode(index)
-                # Use .iloc to get geometry by position
-                pt = df.iloc[node].geometry
-                route_coords.append([pt.y, pt.x])
-                index = solution.Value(routing.NextVar(index))
-            
-            # Connect back to start
-            route_coords.append(route_coords[0])
-
             ordered_indices = []
             index = routing.Start(0)
             while not routing.IsEnd(index):
                 ordered_indices.append(manager.IndexToNode(index))
                 index = solution.Value(routing.NextVar(index))
 
-            # Create a GDF of the spots in the OPTIMIZED order
+            # Return GDF of the spots in the OPTIMIZED order
             ordered_gdf = quiet_gdf.iloc[ordered_indices]
+            return ordered_gdf
+        
+        return None
 
-            # CALL THE DISTANCE FUNCTION
-            self.calculate_route_distance(ordered_gdf)
-            self.print_route_legs(ordered_gdf)
+    def break_long_legs(self, waypoint_gdf, max_leg_km=10.0):
+        """
+        Inserts intermediate waypoints to break up legs longer than max_leg_km.
+        Inserts at lowest population density points.
+        
+        Args:
+            waypoint_gdf: GeoDataFrame of waypoints
+            max_leg_km: Maximum leg distance before breaking (default 10 km)
+            
+        Returns:
+            List of (lat, lng) tuples with inserted waypoints
+        """
+        waypoints = [(row.geometry.y, row.geometry.x) for _, row in waypoint_gdf.iterrows()]
+        result_waypoints = []
+        long_legs_found = []
+        
+        def haversine(lat1, lng1, lat2, lng2):
+            """Calculate great-circle distance in km"""
+            R = 6371  # Earth radius in km
+            phi1 = math.radians(lat1)
+            phi2 = math.radians(lat2)
+            delta_phi = math.radians(lat2 - lat1)
+            delta_lambda = math.radians(lng2 - lng1)
+            
+            a = math.sin(delta_phi/2)**2 + math.cos(phi1) * math.cos(phi2) * math.sin(delta_lambda/2)**2
+            c = 2 * math.atan2(math.sqrt(a), math.sqrt(1-a))
+            return R * c
+        
+        print(f"\n[*] Checking legs for distance > {max_leg_km} km...")
+        
+        for i in range(len(waypoints)):
+            result_waypoints.append(waypoints[i])
+            
+            if i < len(waypoints) - 1:
+                start_lat, start_lng = waypoints[i]
+                end_lat, end_lng = waypoints[i + 1]
+                
+                leg_distance = haversine(start_lat, start_lng, end_lat, end_lng)
+                
+                if leg_distance > max_leg_km:
+                    print(f"  Leg {i}→{i+1}: {leg_distance:.2f} km (LONG!)")
+                    
+                    # Calculate number of intermediate waypoints needed
+                    num_intermediate = math.ceil(leg_distance / max_leg_km) - 1
+                    print(f"    → Inserting {num_intermediate} intermediate waypoint(s)")
+                    
+                    # Sample along the leg
+                    samples = []
+                    for j in range(100):
+                        t = j / 99.0
+                        lat = start_lat + t * (end_lat - start_lat)
+                        lng = start_lng + t * (end_lng - start_lng)
+                        
+                        try:
+                            pop = self.loader.getPopulationDensity(lat, lng)
+                        except:
+                            pop = 0.0
+                        
+                        samples.append({'lat': lat, 'lng': lng, 'pop': pop, 't': t})
+                    
+                    # Find insertion points at evenly-spaced MIDDLE positions
+                    # For N waypoints, place at t = 1/(N+1), 2/(N+1), ..., N/(N+1)
+                    target_positions = [(i+1) / (num_intermediate + 1) for i in range(num_intermediate)]
+                    insertion_points = []
+                    search_radius = 0.15  # Look within ±15% around target position
+                    
+                    for target_t in target_positions:
+                        # Find samples near this target position
+                        nearby = [s for s in samples if abs(s['t'] - target_t) <= search_radius]
+                        
+                        if nearby:
+                            # Among nearby samples, pick lowest population
+                            best = min(nearby, key=lambda x: x['pop'])
+                        else:
+                            # Fallback: pick closest to target position
+                            best = min(samples, key=lambda x: abs(x['t'] - target_t))
+                        
+                        insertion_points.append(best)
+                    
+                    # Already sorted by position due to target order
+                    insertion_points = sorted(insertion_points, key=lambda x: x['t'])
+                    
+                    for pt in insertion_points:
+                        result_waypoints.append((pt['lat'], pt['lng']))
+                        print(f"      • Inserted at pop={pt['pop']:.0f}")
+                    
+                    long_legs_found.append({
+                        'leg': (i, i+1),
+                        'distance_km': leg_distance,
+                        'intermediate': num_intermediate
+                    })
+                else:
+                    print(f"  Leg {i}→{i+1}: {leg_distance:.2f} km ✓")
+        
+        # Print summary
+        if long_legs_found:
+            print(f"\n  Summary: {len(long_legs_found)} long leg(s) broken into {len(result_waypoints) - len(waypoints)} new waypoint(s)")
+        else:
+            print(f"\n  ✓ All legs within {max_leg_km} km limit")
+        
+        return result_waypoints, long_legs_found
 
+    def addOptimizedDronePath(self):
+        # Get the optimized route as a GeoDataFrame
+        ordered_gdf = self.getOptimizedDronePath()
+        
+        if ordered_gdf is None or len(ordered_gdf) < 3:
+            print("Could not generate optimized drone path.")
+            return
 
-            folium.PolyLine(
-                locations=route_coords,
-                color="green",
-                weight=5,
-                opacity=0.7
+        # Build PolyLine coordinates from the ordered GDF
+        route_coords = []
+        for _, row in ordered_gdf.iterrows():
+            pt = row.geometry
+            route_coords.append([pt.y, pt.x])
+        
+        # Connect back to start
+        route_coords.append(route_coords[0])
+
+        # CALL THE DISTANCE FUNCTION
+        self.calculate_route_distance(ordered_gdf)
+        self.print_route_legs(ordered_gdf)
+
+        # Draw route line
+        folium.PolyLine(
+            locations=route_coords,
+            color="green",
+            weight=5,
+            opacity=0.7,
+            tooltip="Optimized Drone Route"
+        ).add_to(self.map)
+        
+        # Mark waypoints with blue circles (excluding return-to-start)
+        for i, coord in enumerate(route_coords[:-1]):
+            folium.CircleMarker(
+                location=coord,
+                radius=5,
+                color='#0000FF',
+                fill=True,
+                fill_color='#0000FF',
+                fill_opacity=0.8,
+                weight=2,
+                popup=f"Waypoint {i+1}",
+                tooltip=f"Stop {i+1}"
             ).add_to(self.map)
-            print("TSP Path added successfully.")
+        
+        print("TSP route with waypoints added successfully.")
 
     def print_route_legs(self, ordered_gdf):
         """

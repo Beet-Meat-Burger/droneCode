@@ -193,128 +193,68 @@ class geodata:
         quiet_gdf = gpd.GeoDataFrame(quiet_spots, crs="EPSG:4326")
         return islands_gdf, final_peaks_gdf, quiet_gdf
 
-    def findClosestQuietSpots(self, peak_geom, max_radius=10, quiet_threshold=50, top_n=1):
+    def findQuietSpots(self, peak_geom, search_radius=10, quiet_threshold=50, top_n=3):
+        """
+        Finds the quietest (lowest population) spots near a population peak.
+        Searches in expanding square rings to prioritize proximity.
+        
+        Args:
+            peak_geom: Shapely Point geometry of the peak
+            search_radius: Maximum pixels to search from peak (100m grid)
+            quiet_threshold: Max population to qualify as "quiet"
+            top_n: Number of quiet spots to return
+            
+        Returns:
+            List of candidates sorted by [population, distance], limited to top_n
+        """
         from rasterio.windows import Window
-        # 1. Get starting pixel
+        
         row, col = self.popRaster.index(peak_geom.x, peak_geom.y)
-        peak_pop = self.popRaster.read(1, window=Window(col, row, 1, 1))[0,0]
-        
         candidates = []
+        seen_pixels = set([(row, col)])
         
-        # 2. Spiral outwards (1 pixel away, then 2, etc.)
-        for r in range(1, max_radius + 1):
-            ring_candidates = []
+        # Spiral outward in square rings
+        for radius in range(1, search_radius + 1):
+            ring_results = []
             
-            # Check the perimeter of the square at distance 'r'
-            for dr in range(-r, r + 1):
-                for dc in range(-r, r + 1):
-                    if abs(dr) == r or abs(dc) == r:
-                        curr_row, curr_col = row + dr, col + dc
-                        
-                        # Read single pixel
-                        val = self.popRaster.read(1, window=Window(curr_col, curr_row, 1, 1), 
-                                                boundless=True, fill_value=-1)[0,0]
-                        
-                        # 3. PRIORITY CHECK: Is it "quiet enough"?
-                        # (e.g., population < 50 or less than 10% of the peak spike)
-                        if 0 <= val <= quiet_threshold:
-                            lon, lat = self.popRaster.xy(curr_row, curr_col)
-                            ring_candidates.append({
-                                'geometry': Point(lon, lat),
-                                'pop': val,
-                                'dist_px': r
-                            })
-            
-            # 4. If we found any quiet spots in this ring, sort them by pop and add
-            if ring_candidates:
-                # Sort this specific ring by population so we pick the best of the closest
-                ring_candidates.sort(key=lambda x: x['pop'])
-                candidates.extend(ring_candidates)
-                
-                # 5. DISTANCE PRIORITY EXIT: 
-                # Since we found spots at distance 'r', we stop looking at 'r+1'
-                if len(candidates) >= top_n:
-                    break
+            # Check perimeter of square at distance 'radius'
+            for dr in range(-radius, radius + 1):
+                for dc in range(-radius, radius + 1):
+                    # Only check edges of the square (not interior)
+                    if abs(dr) != radius and abs(dc) != radius and radius > 1:
+                        continue
                     
-        return candidates[:top_n]
-
-
-    def findQuietSpotsByRipple(self, peak_geom, max_radius_pixels=10, top_n=3):
-        from rasterio.windows import Window
-        row, col = self.popRaster.index(peak_geom.x, peak_geom.y)
-        candidates = []
-        seen_pixels = set([(row, col)]) # Don't re-check the spike itself
-
-        # Increase radius step by step (1 pixel out, then 2, etc.)
-        for r in range(1, max_radius_pixels + 1):
-            # Define the boundary of the ring at distance 'r'
-            # We sample pixels in a square ring around the center
-            for dr in range(-r, r + 1):
-                for dc in range(-r, r + 1):
-                    # Only look at the edges of the current r-square (the "ring")
-                    if abs(dr) == r or abs(dc) == r:
-                        curr_row, curr_col = row + dr, col + dc
+                    curr_row, curr_col = row + dr, col + dc
+                    
+                    if (curr_row, curr_col) in seen_pixels:
+                        continue
+                    seen_pixels.add((curr_row, curr_col))
+                    
+                    # Read pixel value
+                    win = Window(curr_col, curr_row, 1, 1)
+                    val = self.popRaster.read(1, window=win, boundless=True, fill_value=-1)[0, 0]
+                    
+                    if val >= 0 and val <= quiet_threshold:
+                        lon, lat = self.popRaster.xy(curr_row, curr_col)
+                        dist_m = peak_geom.distance(Point(lon, lat)) * 111_000  # degrees to meters
                         
-                        if (curr_row, curr_col) in seen_pixels:
-                            continue
-                        
-                        # Read the specific pixel value
-                        # (Window of 1x1 at the calculated offset)
-                        win = Window(curr_col, curr_row, 1, 1)
-                        val = self.popRaster.read(1, window=win, boundless=True, fill_value=-1)[0,0]
-                        
-                        if val >= 0:
-                            lon, lat = self.popRaster.xy(curr_row, curr_col)
-                            dist_m = peak_geom.distance(Point(lon, lat)) * 111000
-                            
-                            candidates.append({
-                                'geometry': Point(lon, lat),
-                                'pop': val,
-                                'dist': dist_m,
-                                'ripple_step': r
-                            })
-                            seen_pixels.add((curr_row, curr_col))
-
-            # OPTIONAL: If we found enough "perfect" zeros in this ring, 
-            # we can stop early to ensure "very close" priority.
-            zeros_in_ring = [c for c in candidates if c['ripple_step'] == r and c['pop'] == 0]
-            if len(zeros_in_ring) >= top_n:
+                        ring_results.append({
+                            'geometry': Point(lon, lat),
+                            'pop': val,
+                            'distance_m': dist_m
+                        })
+            
+            # Sort this ring's results and add to candidates
+            ring_results.sort(key=lambda x: (x['pop'], x['distance_m']))
+            candidates.extend(ring_results)
+            
+            # Early exit if we have enough quiet spots
+            if len(candidates) >= top_n:
                 break
-
-        # Final Rank: Priority 1: Population (Lowest), Priority 2: Distance (Closest)
-        ranked = sorted(candidates, key=lambda x: (x['pop'], x['dist']))
-        return ranked[:top_n]
-
-
-    def getRankedQuietSpots(self, peak_geom, radius=4, top_n=3):
-        from rasterio.windows import Window
-        # 1. Get raster index of the spike
-        row, col = self.popRaster.index(peak_geom.x, peak_geom.y)
         
-        # 2. Extract neighborhood
-        win = Window(col - radius, row - radius, radius*2 + 1, radius*2 + 1)
-        # Read and mask NoData (WorldPop often uses -99999 or NaN)
-        data = self.popRaster.read(1, window=win, boundless=True, fill_value=-1)
-        
-        candidates = []
-        for (r_rel, c_rel), val in np.ndenumerate(data):
-            
-            # 3. Convert back to global coords
-            lon, lat = self.popRaster.xy(row - radius + r_rel, col - radius + c_rel)
-            target_pt = Point(lon, lat)
-            
-            # 4. Calculate raw distance for ranking
-            dist = peak_geom.distance(target_pt)
-            
-            candidates.append({
-                'geometry': target_pt,
-                'pop': val,
-                'dist': dist
-            })
-
-        # Sort: Primary = Population (Low to High), Secondary = Distance (Close to Far)
-        ranked = sorted(candidates, key=lambda x: (x['pop'], x['dist']))
-        return ranked[:top_n]
+        # Final sort and return top N
+        candidates.sort(key=lambda x: (x['pop'], x['distance_m']))
+        return candidates[:top_n]
 
     def get_raw_grid_gdf(self):
         """Extracts the entire population raster into a GeoDataFrame of Points."""
