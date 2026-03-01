@@ -1,5 +1,5 @@
 # Mission Integration Report
-Generated: 2026-03-01 20:07:16
+Generated: 2026-03-01 22:24:25
 
 ## Executive Summary
 
@@ -12,8 +12,8 @@ This report documents the complete drone mission optimization process, including
 
 ## Mission Parameters
 
-- **Total Waypoints:** 52
-- **Total Route Distance:** 17086.31 km
+- **Total Waypoints:** 33
+- **Total Route Distance:** 132.53 km
 - **Drone Model:** DJI Matrice 300 RTK
 
 ## Waypoint Statistics
@@ -21,25 +21,25 @@ This report documents the complete drone mission optimization process, including
 ### Population Density Analysis
 - **Minimum:** -99999 ppl/cell
 - **Maximum:** 1272 ppl/cell
-- **Mean:** -28573.9 ppl/cell
-- **Median:** 51.5 ppl/cell
+- **Mean:** -29909.6 ppl/cell
+- **Median:** 279.0 ppl/cell
 
 ### Altitude Recommendations
 - **Minimum:** 100 ft
 - **Maximum:** 500 ft
-- **Mean:** 288 ft
+- **Mean:** 356 ft
 
 ### Leg Distances
-- **Minimum:** 1.09 km
-- **Maximum:** 1106.57 km
-- **Mean:** 328.68 km
-- **Status:** ✗ Some legs exceed limits
+- **Minimum:** 1.90 km
+- **Maximum:** 9.16 km
+- **Mean:** 4.17 km
+- **Status:** ✓ All legs within limits
 
 ## Risk Distribution
 
-- **LOW:** 25 waypoints
-- **HIGH:** 23 waypoints
-- **MEDIUM:** 4 waypoints
+- **HIGH:** 20 waypoints
+- **LOW:** 10 waypoints
+- **MEDIUM:** 3 waypoints
 
 ## Algorithm Summary
 
@@ -86,12 +86,12 @@ See `ALGORITHMS_AND_FORMULAS.md` for detailed mathematical formulations.
 
 ## Validation
 
-- **Time Generated:** 2026-03-01T20:07:16.720709
-- **Total Route Distance:** 17086.31 km
-- **Waypoint Count:** 52
+- **Time Generated:** 2026-03-01T22:24:25.704204
+- **Total Route Distance:** 132.53 km
+- **Waypoint Count:** 33
 - **All Coordinates Valid:** ✓ (22.0-22.5°N, 114.0-114.3°E)
 - **All Altitudes Valid:** ✓ (50-500 ft)
-- **All Legs Valid:** ✗ (<= 10 km)
+- **All Legs Valid:** ✓ (<= 10 km)
 
 ## Contact & Documentation
 

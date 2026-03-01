@@ -54,7 +54,7 @@ class MissionRunner:
 
     # ===== CONFIGURATION PARAMETERS (Easy to Change!) =====
     # Adjust these to change curving behavior WITHOUT editing code logic
-    CURVE_ENABLED = True              # Enable/disable curved route generation
+    CURVE_ENABLED = False              # Enable/disable curved route generation
     CURVE_DENSITY_THRESHOLD = 200     # Population threshold to trigger curving
     CURVE_DISTANCE_PENALTY = 0.20     # Max distance increase allowed (20% = 1.2x)
     CURVE_FACTOR = 0.15               # How aggressively to curve (0.05-0.25)

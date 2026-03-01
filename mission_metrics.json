@@ -1,29 +1,29 @@
 {
-  "mission_timestamp": "2026-03-01T20:07:16.720709",
-  "total_waypoints": 52,
-  "total_distance_km": 17086.308763317258,
+  "mission_timestamp": "2026-03-01T22:24:25.704204",
+  "total_waypoints": 33,
+  "total_distance_km": 132.52920338443812,
   "waypoints": {},
   "statistics": {
     "population": {
       "min": -99999,
       "max": 1272,
-      "mean": -28573.923076923078,
-      "median": 51.5
+      "mean": -29909.60606060606,
+      "median": 279.0
     },
     "altitude": {
       "min": 100,
       "max": 500,
-      "mean": 288.46153846153845
+      "mean": 356.06060606060606
     },
     "leg_length": {
-      "min": 1.09,
-      "max": 1106.57,
-      "mean": 328.6774999999999
+      "min": 1.9,
+      "max": 9.16,
+      "mean": 4.165151515151515
     }
   },
   "risk_summary": {
-    "LOW": 25,
-    "HIGH": 23,
-    "MEDIUM": 4
+    "HIGH": 20,
+    "LOW": 10,
+    "MEDIUM": 3
   }
 }

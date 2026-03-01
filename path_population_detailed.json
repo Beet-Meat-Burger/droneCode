@@ -1,0 +1,967 @@
+{
+  "ORIGINAL": {
+    "path_type": "STRAIGHT",
+    "total_population": 561801,
+    "average_population_per_100m": 0.28,
+    "median_population_per_100m": 0.0,
+    "total_samples": 2041961,
+    "leg_details": [
+      {
+        "leg": "0 -> 1",
+        "distance_km": 5.307,
+        "samples": 54,
+        "total_population": 6953,
+        "avg_population": 128.8
+      },
+      {
+        "leg": "1 -> 2",
+        "distance_km": 16.812,
+        "samples": 169,
+        "total_population": 18233,
+        "avg_population": 107.9
+      },
+      {
+        "leg": "2 -> 3",
+        "distance_km": 16.529,
+        "samples": 166,
+        "total_population": 5765,
+        "avg_population": 34.7
+      },
+      {
+        "leg": "3 -> 4",
+        "distance_km": 16.502,
+        "samples": 166,
+        "total_population": 5753,
+        "avg_population": 34.7
+      },
+      {
+        "leg": "4 -> 5",
+        "distance_km": 16.304,
+        "samples": 164,
+        "total_population": 16531,
+        "avg_population": 100.8
+      },
+      {
+        "leg": "5 -> 6",
+        "distance_km": 4.728,
+        "samples": 48,
+        "total_population": 13700,
+        "avg_population": 285.4
+      },
+      {
+        "leg": "6 -> 7",
+        "distance_km": 2.406,
+        "samples": 25,
+        "total_population": 11265,
+        "avg_population": 450.6
+      },
+      {
+        "leg": "7 -> 8",
+        "distance_km": 1.905,
+        "samples": 20,
+        "total_population": 4998,
+        "avg_population": 249.9
+      },
+      {
+        "leg": "8 -> 9",
+        "distance_km": 10161.325,
+        "samples": 101614,
+        "total_population": 7520,
+        "avg_population": 0.1
+      },
+      {
+        "leg": "9 -> 10",
+        "distance_km": 10157.354,
+        "samples": 101574,
+        "total_population": 4194,
+        "avg_population": 0.0
+      },
+      {
+        "leg": "10 -> 11",
+        "distance_km": 5.368,
+        "samples": 54,
+        "total_population": 3537,
+        "avg_population": 65.5
+      },
+      {
+        "leg": "11 -> 12",
+        "distance_km": 4.907,
+        "samples": 50,
+        "total_population": 2843,
+        "avg_population": 56.9
+      },
+      {
+        "leg": "12 -> 13",
+        "distance_km": 5.625,
+        "samples": 57,
+        "total_population": 14629,
+        "avg_population": 256.7
+      },
+      {
+        "leg": "13 -> 14",
+        "distance_km": 16.256,
+        "samples": 163,
+        "total_population": 4026,
+        "avg_population": 24.7
+      },
+      {
+        "leg": "14 -> 15",
+        "distance_km": 16.081,
+        "samples": 161,
+        "total_population": 5090,
+        "avg_population": 31.6
+      },
+      {
+        "leg": "15 -> 16",
+        "distance_km": 2.388,
+        "samples": 24,
+        "total_population": 1627,
+        "avg_population": 67.8
+      },
+      {
+        "leg": "16 -> 17",
+        "distance_km": 2.302,
+        "samples": 24,
+        "total_population": 53,
+        "avg_population": 2.2
+      },
+      {
+        "leg": "17 -> 18",
+        "distance_km": 7.693,
+        "samples": 77,
+        "total_population": 2548,
+        "avg_population": 33.1
+      },
+      {
+        "leg": "18 -> 19",
+        "distance_km": 12462.261,
+        "samples": 124623,
+        "total_population": 20375,
+        "avg_population": 0.2
+      },
+      {
+        "leg": "19 -> 20",
+        "distance_km": 12464.619,
+        "samples": 124647,
+        "total_population": 10025,
+        "avg_population": 0.1
+      },
+      {
+        "leg": "20 -> 21",
+        "distance_km": 15.562,
+        "samples": 156,
+        "total_population": 5708,
+        "avg_population": 36.6
+      },
+      {
+        "leg": "21 -> 22",
+        "distance_km": 15.486,
+        "samples": 155,
+        "total_population": 6619,
+        "avg_population": 42.7
+      },
+      {
+        "leg": "22 -> 23",
+        "distance_km": 9.49,
+        "samples": 95,
+        "total_population": 7826,
+        "avg_population": 82.4
+      },
+      {
+        "leg": "23 -> 24",
+        "distance_km": 9.746,
+        "samples": 98,
+        "total_population": 2483,
+        "avg_population": 25.3
+      },
+      {
+        "leg": "24 -> 25",
+        "distance_km": 7.381,
+        "samples": 74,
+        "total_population": 3790,
+        "avg_population": 51.2
+      },
+      {
+        "leg": "25 -> 26",
+        "distance_km": 7.432,
+        "samples": 75,
+        "total_population": 0,
+        "avg_population": 0.0
+      },
+      {
+        "leg": "26 -> 27",
+        "distance_km": 3.71,
+        "samples": 38,
+        "total_population": 13880,
+        "avg_population": 365.3
+      },
+      {
+        "leg": "27 -> 28",
+        "distance_km": 16279.442,
+        "samples": 162795,
+        "total_population": 40588,
+        "avg_population": 0.2
+      },
+      {
+        "leg": "28 -> 29",
+        "distance_km": 16280.367,
+        "samples": 162804,
+        "total_population": 26559,
+        "avg_population": 0.2
+      },
+      {
+        "leg": "29 -> 30",
+        "distance_km": 6.94,
+        "samples": 70,
+        "total_population": 3684,
+        "avg_population": 52.6
+      },
+      {
+        "leg": "30 -> 31",
+        "distance_km": 5.012,
+        "samples": 51,
+        "total_population": 2741,
+        "avg_population": 53.8
+      },
+      {
+        "leg": "31 -> 32",
+        "distance_km": 9.164,
+        "samples": 92,
+        "total_population": 1179,
+        "avg_population": 12.8
+      },
+      {
+        "leg": "32 -> 33",
+        "distance_km": 14884.244,
+        "samples": 148843,
+        "total_population": 14875,
+        "avg_population": 0.1
+      },
+      {
+        "leg": "33 -> 34",
+        "distance_km": 14889.438,
+        "samples": 148895,
+        "total_population": 50060,
+        "avg_population": 0.3
+      },
+      {
+        "leg": "34 -> 35",
+        "distance_km": 7946.166,
+        "samples": 79462,
+        "total_population": 11382,
+        "avg_population": 0.1
+      },
+      {
+        "leg": "35 -> 36",
+        "distance_km": 7944.218,
+        "samples": 79443,
+        "total_population": 5769,
+        "avg_population": 0.1
+      },
+      {
+        "leg": "36 -> 37",
+        "distance_km": 2.77,
+        "samples": 28,
+        "total_population": 10892,
+        "avg_population": 389.0
+      },
+      {
+        "leg": "37 -> 38",
+        "distance_km": 11460.176,
+        "samples": 114602,
+        "total_population": 5303,
+        "avg_population": 0.0
+      },
+      {
+        "leg": "38 -> 39",
+        "distance_km": 11464.218,
+        "samples": 114643,
+        "total_population": 19227,
+        "avg_population": 0.2
+      },
+      {
+        "leg": "39 -> 40",
+        "distance_km": 16.528,
+        "samples": 166,
+        "total_population": 4579,
+        "avg_population": 27.6
+      },
+      {
+        "leg": "40 -> 41",
+        "distance_km": 16.341,
+        "samples": 164,
+        "total_population": 21475,
+        "avg_population": 131.0
+      },
+      {
+        "leg": "41 -> 42",
+        "distance_km": 16.418,
+        "samples": 165,
+        "total_population": 17917,
+        "avg_population": 108.6
+      },
+      {
+        "leg": "42 -> 43",
+        "distance_km": 16.178,
+        "samples": 162,
+        "total_population": 14533,
+        "avg_population": 89.7
+      },
+      {
+        "leg": "43 -> 44",
+        "distance_km": 13245.113,
+        "samples": 132452,
+        "total_population": 13247,
+        "avg_population": 0.1
+      },
+      {
+        "leg": "44 -> 45",
+        "distance_km": 13241.299,
+        "samples": 132413,
+        "total_population": 6535,
+        "avg_population": 0.0
+      },
+      {
+        "leg": "45 -> 46",
+        "distance_km": 15482.618,
+        "samples": 154827,
+        "total_population": 28998,
+        "avg_population": 0.2
+      },
+      {
+        "leg": "46 -> 47",
+        "distance_km": 15485.417,
+        "samples": 154855,
+        "total_population": 15802,
+        "avg_population": 0.1
+      },
+      {
+        "leg": "47 -> 48",
+        "distance_km": 16.686,
+        "samples": 167,
+        "total_population": 3297,
+        "avg_population": 19.7
+      },
+      {
+        "leg": "48 -> 49",
+        "distance_km": 16.616,
+        "samples": 167,
+        "total_population": 8705,
+        "avg_population": 52.1
+      },
+      {
+        "leg": "49 -> 50",
+        "distance_km": 4.683,
+        "samples": 47,
+        "total_population": 3841,
+        "avg_population": 81.7
+      },
+      {
+        "leg": "50 -> 51",
+        "distance_km": 2.677,
+        "samples": 27,
+        "total_population": 4959,
+        "avg_population": 183.7
+      },
+      {
+        "leg": "51 -> 0 (return)",
+        "distance_km": 4.915,
+        "samples": 50,
+        "total_population": 25659,
+        "avg_population": 513.2
+      }
+    ]
+  },
+  "OPTIMIZED_FROM_CSV": {
+    "path_type": "STRAIGHT",
+    "total_population": 561801,
+    "average_population_per_100m": 0.28,
+    "median_population_per_100m": 0.0,
+    "total_samples": 2041961,
+    "leg_details": [
+      {
+        "leg": "0 -> 1",
+        "distance_km": 5.307,
+        "samples": 54,
+        "total_population": 6953,
+        "avg_population": 128.8
+      },
+      {
+        "leg": "1 -> 2",
+        "distance_km": 16.812,
+        "samples": 169,
+        "total_population": 18233,
+        "avg_population": 107.9
+      },
+      {
+        "leg": "2 -> 3",
+        "distance_km": 16.529,
+        "samples": 166,
+        "total_population": 5765,
+        "avg_population": 34.7
+      },
+      {
+        "leg": "3 -> 4",
+        "distance_km": 16.502,
+        "samples": 166,
+        "total_population": 5753,
+        "avg_population": 34.7
+      },
+      {
+        "leg": "4 -> 5",
+        "distance_km": 16.304,
+        "samples": 164,
+        "total_population": 16531,
+        "avg_population": 100.8
+      },
+      {
+        "leg": "5 -> 6",
+        "distance_km": 4.728,
+        "samples": 48,
+        "total_population": 13700,
+        "avg_population": 285.4
+      },
+      {
+        "leg": "6 -> 7",
+        "distance_km": 2.406,
+        "samples": 25,
+        "total_population": 11265,
+        "avg_population": 450.6
+      },
+      {
+        "leg": "7 -> 8",
+        "distance_km": 1.905,
+        "samples": 20,
+        "total_population": 4998,
+        "avg_population": 249.9
+      },
+      {
+        "leg": "8 -> 9",
+        "distance_km": 10161.325,
+        "samples": 101614,
+        "total_population": 7520,
+        "avg_population": 0.1
+      },
+      {
+        "leg": "9 -> 10",
+        "distance_km": 10157.354,
+        "samples": 101574,
+        "total_population": 4194,
+        "avg_population": 0.0
+      },
+      {
+        "leg": "10 -> 11",
+        "distance_km": 5.368,
+        "samples": 54,
+        "total_population": 3537,
+        "avg_population": 65.5
+      },
+      {
+        "leg": "11 -> 12",
+        "distance_km": 4.907,
+        "samples": 50,
+        "total_population": 2843,
+        "avg_population": 56.9
+      },
+      {
+        "leg": "12 -> 13",
+        "distance_km": 5.625,
+        "samples": 57,
+        "total_population": 14629,
+        "avg_population": 256.7
+      },
+      {
+        "leg": "13 -> 14",
+        "distance_km": 16.256,
+        "samples": 163,
+        "total_population": 4026,
+        "avg_population": 24.7
+      },
+      {
+        "leg": "14 -> 15",
+        "distance_km": 16.081,
+        "samples": 161,
+        "total_population": 5090,
+        "avg_population": 31.6
+      },
+      {
+        "leg": "15 -> 16",
+        "distance_km": 2.388,
+        "samples": 24,
+        "total_population": 1627,
+        "avg_population": 67.8
+      },
+      {
+        "leg": "16 -> 17",
+        "distance_km": 2.302,
+        "samples": 24,
+        "total_population": 53,
+        "avg_population": 2.2
+      },
+      {
+        "leg": "17 -> 18",
+        "distance_km": 7.693,
+        "samples": 77,
+        "total_population": 2548,
+        "avg_population": 33.1
+      },
+      {
+        "leg": "18 -> 19",
+        "distance_km": 12462.261,
+        "samples": 124623,
+        "total_population": 20375,
+        "avg_population": 0.2
+      },
+      {
+        "leg": "19 -> 20",
+        "distance_km": 12464.619,
+        "samples": 124647,
+        "total_population": 10025,
+        "avg_population": 0.1
+      },
+      {
+        "leg": "20 -> 21",
+        "distance_km": 15.562,
+        "samples": 156,
+        "total_population": 5708,
+        "avg_population": 36.6
+      },
+      {
+        "leg": "21 -> 22",
+        "distance_km": 15.486,
+        "samples": 155,
+        "total_population": 6619,
+        "avg_population": 42.7
+      },
+      {
+        "leg": "22 -> 23",
+        "distance_km": 9.49,
+        "samples": 95,
+        "total_population": 7826,
+        "avg_population": 82.4
+      },
+      {
+        "leg": "23 -> 24",
+        "distance_km": 9.746,
+        "samples": 98,
+        "total_population": 2483,
+        "avg_population": 25.3
+      },
+      {
+        "leg": "24 -> 25",
+        "distance_km": 7.381,
+        "samples": 74,
+        "total_population": 3790,
+        "avg_population": 51.2
+      },
+      {
+        "leg": "25 -> 26",
+        "distance_km": 7.432,
+        "samples": 75,
+        "total_population": 0,
+        "avg_population": 0.0
+      },
+      {
+        "leg": "26 -> 27",
+        "distance_km": 3.71,
+        "samples": 38,
+        "total_population": 13880,
+        "avg_population": 365.3
+      },
+      {
+        "leg": "27 -> 28",
+        "distance_km": 16279.442,
+        "samples": 162795,
+        "total_population": 40588,
+        "avg_population": 0.2
+      },
+      {
+        "leg": "28 -> 29",
+        "distance_km": 16280.367,
+        "samples": 162804,
+        "total_population": 26559,
+        "avg_population": 0.2
+      },
+      {
+        "leg": "29 -> 30",
+        "distance_km": 6.94,
+        "samples": 70,
+        "total_population": 3684,
+        "avg_population": 52.6
+      },
+      {
+        "leg": "30 -> 31",
+        "distance_km": 5.012,
+        "samples": 51,
+        "total_population": 2741,
+        "avg_population": 53.8
+      },
+      {
+        "leg": "31 -> 32",
+        "distance_km": 9.164,
+        "samples": 92,
+        "total_population": 1179,
+        "avg_population": 12.8
+      },
+      {
+        "leg": "32 -> 33",
+        "distance_km": 14884.244,
+        "samples": 148843,
+        "total_population": 14875,
+        "avg_population": 0.1
+      },
+      {
+        "leg": "33 -> 34",
+        "distance_km": 14889.438,
+        "samples": 148895,
+        "total_population": 50060,
+        "avg_population": 0.3
+      },
+      {
+        "leg": "34 -> 35",
+        "distance_km": 7946.166,
+        "samples": 79462,
+        "total_population": 11382,
+        "avg_population": 0.1
+      },
+      {
+        "leg": "35 -> 36",
+        "distance_km": 7944.218,
+        "samples": 79443,
+        "total_population": 5769,
+        "avg_population": 0.1
+      },
+      {
+        "leg": "36 -> 37",
+        "distance_km": 2.77,
+        "samples": 28,
+        "total_population": 10892,
+        "avg_population": 389.0
+      },
+      {
+        "leg": "37 -> 38",
+        "distance_km": 11460.176,
+        "samples": 114602,
+        "total_population": 5303,
+        "avg_population": 0.0
+      },
+      {
+        "leg": "38 -> 39",
+        "distance_km": 11464.218,
+        "samples": 114643,
+        "total_population": 19227,
+        "avg_population": 0.2
+      },
+      {
+        "leg": "39 -> 40",
+        "distance_km": 16.528,
+        "samples": 166,
+        "total_population": 4579,
+        "avg_population": 27.6
+      },
+      {
+        "leg": "40 -> 41",
+        "distance_km": 16.341,
+        "samples": 164,
+        "total_population": 21475,
+        "avg_population": 131.0
+      },
+      {
+        "leg": "41 -> 42",
+        "distance_km": 16.418,
+        "samples": 165,
+        "total_population": 17917,
+        "avg_population": 108.6
+      },
+      {
+        "leg": "42 -> 43",
+        "distance_km": 16.178,
+        "samples": 162,
+        "total_population": 14533,
+        "avg_population": 89.7
+      },
+      {
+        "leg": "43 -> 44",
+        "distance_km": 13245.113,
+        "samples": 132452,
+        "total_population": 13247,
+        "avg_population": 0.1
+      },
+      {
+        "leg": "44 -> 45",
+        "distance_km": 13241.299,
+        "samples": 132413,
+        "total_population": 6535,
+        "avg_population": 0.0
+      },
+      {
+        "leg": "45 -> 46",
+        "distance_km": 15482.618,
+        "samples": 154827,
+        "total_population": 28998,
+        "avg_population": 0.2
+      },
+      {
+        "leg": "46 -> 47",
+        "distance_km": 15485.417,
+        "samples": 154855,
+        "total_population": 15802,
+        "avg_population": 0.1
+      },
+      {
+        "leg": "47 -> 48",
+        "distance_km": 16.686,
+        "samples": 167,
+        "total_population": 3297,
+        "avg_population": 19.7
+      },
+      {
+        "leg": "48 -> 49",
+        "distance_km": 16.616,
+        "samples": 167,
+        "total_population": 8705,
+        "avg_population": 52.1
+      },
+      {
+        "leg": "49 -> 50",
+        "distance_km": 4.683,
+        "samples": 47,
+        "total_population": 3841,
+        "avg_population": 81.7
+      },
+      {
+        "leg": "50 -> 51",
+        "distance_km": 2.677,
+        "samples": 27,
+        "total_population": 4959,
+        "avg_population": 183.7
+      },
+      {
+        "leg": "51 -> 0 (return)",
+        "distance_km": 4.915,
+        "samples": 50,
+        "total_population": 25659,
+        "avg_population": 513.2
+      }
+    ]
+  },
+  "OPTIMIZED_TSP": {
+    "path_type": "STRAIGHT",
+    "total_population": 326509,
+    "average_population_per_100m": 234.73,
+    "median_population_per_100m": 28.97,
+    "total_samples": 1391,
+    "leg_details": [
+      {
+        "leg": "0 -> 1",
+        "distance_km": 5.307,
+        "samples": 54,
+        "total_population": 6953,
+        "avg_population": 128.8
+      },
+      {
+        "leg": "1 -> 2",
+        "distance_km": 4.591,
+        "samples": 46,
+        "total_population": 21545,
+        "avg_population": 468.4
+      },
+      {
+        "leg": "2 -> 3",
+        "distance_km": 2.677,
+        "samples": 27,
+        "total_population": 13205,
+        "avg_population": 489.1
+      },
+      {
+        "leg": "3 -> 4",
+        "distance_km": 4.728,
+        "samples": 48,
+        "total_population": 13700,
+        "avg_population": 285.4
+      },
+      {
+        "leg": "4 -> 5",
+        "distance_km": 2.406,
+        "samples": 25,
+        "total_population": 10802,
+        "avg_population": 432.1
+      },
+      {
+        "leg": "5 -> 6",
+        "distance_km": 1.905,
+        "samples": 20,
+        "total_population": 4998,
+        "avg_population": 249.9
+      },
+      {
+        "leg": "6 -> 7",
+        "distance_km": 4.585,
+        "samples": 46,
+        "total_population": 12049,
+        "avg_population": 262.0
+      },
+      {
+        "leg": "7 -> 8",
+        "distance_km": 6.428,
+        "samples": 65,
+        "total_population": 9685,
+        "avg_population": 149.0
+      },
+      {
+        "leg": "8 -> 9",
+        "distance_km": 5.625,
+        "samples": 57,
+        "total_population": 14739,
+        "avg_population": 258.6
+      },
+      {
+        "leg": "9 -> 10",
+        "distance_km": 2.138,
+        "samples": 22,
+        "total_population": 11677,
+        "avg_population": 530.8
+      },
+      {
+        "leg": "10 -> 11",
+        "distance_km": 11.9,
+        "samples": 120,
+        "total_population": 4213,
+        "avg_population": 35.1
+      },
+      {
+        "leg": "11 -> 12",
+        "distance_km": 3.272,
+        "samples": 33,
+        "total_population": 8317,
+        "avg_population": 252.0
+      },
+      {
+        "leg": "12 -> 13",
+        "distance_km": 1.902,
+        "samples": 20,
+        "total_population": 16509,
+        "avg_population": 825.5
+      },
+      {
+        "leg": "13 -> 14",
+        "distance_km": 5.178,
+        "samples": 52,
+        "total_population": 18096,
+        "avg_population": 348.0
+      },
+      {
+        "leg": "14 -> 15",
+        "distance_km": 2.024,
+        "samples": 21,
+        "total_population": 6622,
+        "avg_population": 315.4
+      },
+      {
+        "leg": "15 -> 16",
+        "distance_km": 3.71,
+        "samples": 38,
+        "total_population": 13880,
+        "avg_population": 365.3
+      },
+      {
+        "leg": "16 -> 17",
+        "distance_km": 10.735,
+        "samples": 108,
+        "total_population": 5464,
+        "avg_population": 50.6
+      },
+      {
+        "leg": "17 -> 18",
+        "distance_km": 14.176,
+        "samples": 142,
+        "total_population": 3976,
+        "avg_population": 28.0
+      },
+      {
+        "leg": "18 -> 19",
+        "distance_km": 5.991,
+        "samples": 60,
+        "total_population": 4684,
+        "avg_population": 78.1
+      },
+      {
+        "leg": "19 -> 20",
+        "distance_km": 1.951,
+        "samples": 20,
+        "total_population": 5002,
+        "avg_population": 250.1
+      },
+      {
+        "leg": "20 -> 21",
+        "distance_km": 2.77,
+        "samples": 28,
+        "total_population": 10892,
+        "avg_population": 389.0
+      },
+      {
+        "leg": "21 -> 22",
+        "distance_km": 4.697,
+        "samples": 47,
+        "total_population": 15268,
+        "avg_population": 324.9
+      },
+      {
+        "leg": "22 -> 23",
+        "distance_km": 2.626,
+        "samples": 27,
+        "total_population": 11227,
+        "avg_population": 415.8
+      },
+      {
+        "leg": "23 -> 24",
+        "distance_km": 3.024,
+        "samples": 31,
+        "total_population": 18808,
+        "avg_population": 606.7
+      },
+      {
+        "leg": "24 -> 25",
+        "distance_km": 4.873,
+        "samples": 49,
+        "total_population": 10869,
+        "avg_population": 221.8
+      },
+      {
+        "leg": "25 -> 26",
+        "distance_km": 4.007,
+        "samples": 41,
+        "total_population": 9472,
+        "avg_population": 231.0
+      },
+      {
+        "leg": "26 -> 27",
+        "distance_km": 1.943,
+        "samples": 20,
+        "total_population": 9383,
+        "avg_population": 469.2
+      },
+      {
+        "leg": "27 -> 28",
+        "distance_km": 4.683,
+        "samples": 47,
+        "total_population": 3841,
+        "avg_population": 81.7
+      },
+      {
+        "leg": "28 -> 29",
+        "distance_km": 2.677,
+        "samples": 27,
+        "total_population": 4959,
+        "avg_population": 183.7
+      },
+      {
+        "leg": "29 -> 0 (return)",
+        "distance_km": 4.915,
+        "samples": 50,
+        "total_population": 25659,
+        "avg_population": 513.2
+      }
+    ]
+  }
+}

@@ -1,0 +1,3 @@
+path_type,total_population_under_path,total_cells_crossed,average_population_per_100m_cell,median_population_per_100m_cell
+STRAIGHT_ORIGINAL_WAYPOINTS,692903,2441,283.86,94.0
+OPTIMIZED_TSP_ROUTE,410324,1006,407.88,252.02
